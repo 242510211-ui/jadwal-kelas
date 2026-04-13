@@ -1,0 +1,656 @@
+<!doctype html>
+<html lang="id">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Website Kelas - Sistem Manajemen Pembelajaran</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+        line-height: 1.6;
+        color: #333;
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        min-height: 100vh;
+      }
+
+      /* Header & Navigation */
+      header {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        color: white;
+        padding: 1rem 0;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        position: sticky;
+        top: 0;
+        z-index: 100;
+      }
+
+      .navbar {
+        max-width: 1200px;
+        margin: 0 auto;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 0 2rem;
+      }
+
+      .logo {
+        font-size: 1.8rem;
+        font-weight: bold;
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+      }
+
+      nav ul {
+        display: flex;
+        list-style: none;
+        gap: 2rem;
+      }
+
+      nav a {
+        color: white;
+        text-decoration: none;
+        transition: opacity 0.3s;
+        cursor: pointer;
+      }
+
+      nav a:hover {
+        opacity: 0.8;
+        border-bottom: 2px solid white;
+      }
+
+      /* Container */
+      .container {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 2rem;
+      }
+
+      /* Hero Section */
+      .hero {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        color: white;
+        padding: 4rem 2rem;
+        text-align: center;
+        border-radius: 10px;
+        margin: 2rem 0;
+        box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+        animation: slideDown 0.6s ease-out;
+      }
+
+      .hero h1 {
+        font-size: 3rem;
+        margin-bottom: 1rem;
+        text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+      }
+
+      .hero p {
+        font-size: 1.2rem;
+        margin-bottom: 2rem;
+      }
+
+      .btn {
+        background: white;
+        color: #667eea;
+        padding: 0.8rem 2rem;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        font-weight: bold;
+        transition: all 0.3s;
+        text-decoration: none;
+        display: inline-block;
+      }
+
+      .btn:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+      }
+
+      /* Section Styles */
+      section {
+        background: white;
+        margin: 2rem 0;
+        padding: 2rem;
+        border-radius: 10px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        animation: fadeIn 0.8s ease-out;
+      }
+
+      section h2 {
+        color: #667eea;
+        margin-bottom: 2rem;
+        font-size: 2rem;
+        border-bottom: 3px solid #667eea;
+        padding-bottom: 1rem;
+      }
+
+      /* Jadwal Kelas */
+      .schedule-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        gap: 1.5rem;
+        margin-top: 1.5rem;
+      }
+
+      .schedule-card {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        color: white;
+        padding: 1.5rem;
+        border-radius: 8px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        transition: transform 0.3s;
+      }
+
+      .schedule-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 8px 12px rgba(0, 0, 0, 0.2);
+      }
+
+      .schedule-card h3 {
+        margin-bottom: 1rem;
+        font-size: 1.3rem;
+      }
+
+      .schedule-card p {
+        margin: 0.5rem 0;
+        opacity: 0.9;
+      }
+
+      .schedule-card .time {
+        background: rgba(255, 255, 255, 0.2);
+        padding: 0.5rem 1rem;
+        border-radius: 5px;
+        margin-top: 1rem;
+        font-weight: bold;
+      }
+
+      /* Guru Section */
+      .teacher-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+        gap: 2rem;
+        margin-top: 1.5rem;
+      }
+
+      .teacher-card {
+        background: linear-gradient(to bottom, #f5f5f5, #fff);
+        border-radius: 8px;
+        padding: 1.5rem;
+        text-align: center;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        transition: all 0.3s;
+        border-top: 4px solid #667eea;
+      }
+
+      .teacher-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 8px 12px rgba(0, 0, 0, 0.2);
+      }
+
+      .teacher-avatar {
+        width: 100px;
+        height: 100px;
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        border-radius: 50%;
+        margin: 0 auto 1rem;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 3rem;
+        color: white;
+      }
+
+      .teacher-card h3 {
+        color: #667eea;
+        margin-bottom: 0.5rem;
+      }
+
+      .teacher-card .subject {
+        color: #764ba2;
+        font-weight: bold;
+        margin-bottom: 0.5rem;
+      }
+
+      .teacher-card .contact {
+        color: #666;
+        font-size: 0.9rem;
+        margin-top: 1rem;
+      }
+
+      /* Kontak */
+      .contact-info {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        gap: 2rem;
+        margin-top: 1.5rem;
+      }
+
+      .contact-item {
+        background: #f9f9f9;
+        padding: 1.5rem;
+        border-radius: 8px;
+        text-align: center;
+        border-top: 3px solid #764ba2;
+      }
+
+      .contact-item .icon {
+        font-size: 2rem;
+        margin-bottom: 1rem;
+        color: #667eea;
+      }
+
+      .contact-item h4 {
+        color: #667eea;
+        margin-bottom: 0.5rem;
+      }
+
+      /* Footer */
+      footer {
+        background: #2c3e50;
+        color: white;
+        text-align: center;
+        padding: 2rem;
+        margin-top: 2rem;
+        border-top: 4px solid #667eea;
+      }
+
+      /* Tab Navigation */
+      .tabs {
+        display: flex;
+        gap: 1rem;
+        margin-bottom: 1.5rem;
+        border-bottom: 2px solid #eee;
+        flex-wrap: wrap;
+      }
+
+      .tab-btn {
+        padding: 0.8rem 1.5rem;
+        background: none;
+        border: none;
+        cursor: pointer;
+        font-size: 1rem;
+        color: #666;
+        border-bottom: 3px solid transparent;
+        transition: all 0.3s;
+      }
+
+      .tab-btn.active {
+        color: #667eea;
+        border-bottom-color: #667eea;
+      }
+
+      .tab-btn:hover {
+        color: #667eea;
+      }
+
+      .tab-content {
+        display: none;
+      }
+
+      .tab-content.active {
+        display: block;
+        animation: fadeIn 0.3s;
+      }
+
+      /* Animasi */
+      @keyframes slideDown {
+        from {
+          opacity: 0;
+          transform: translateY(-20px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      @keyframes fadeIn {
+        from {
+          opacity: 0;
+        }
+        to {
+          opacity: 1;
+        }
+      }
+
+      /* Responsive */
+      @media (max-width: 768px) {
+        .hero h1 {
+          font-size: 2rem;
+        }
+
+        nav ul {
+          gap: 1rem;
+        }
+
+        .container {
+          padding: 1rem;
+        }
+
+        section {
+          padding: 1.5rem;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <!-- Header -->
+    <header>
+      <div class="navbar">
+        <div class="logo">📚 Website Kelas</div>
+        <nav>
+          <ul>
+            <li><a onclick="scrollToSection('home')">Beranda</a></li>
+            <li><a onclick="scrollToSection('schedule')">Jadwal</a></li>
+            <li><a onclick="scrollToSection('teachers')">Guru</a></li>
+            <li><a onclick="scrollToSection('contact')">Alamat</a></li>
+          </ul>
+        </nav>
+      </div>
+    </header>
+
+    <!-- Hero Section -->
+    <div class="hero" id="home">
+      <h1>🎓 Selamat Datang di Website kelas</h1>
+      <p>
+        Pusat informasi dan manajemen pembelajaran harian untuk siswa dan guru
+      </p>
+      <button class="btn" onclick="scrollToSection('schedule')">
+        Lihat Jadwal Kelas
+      </button>
+    </div>
+
+    <div class="container">
+      <!-- Jadwal Kelas Section -->
+      <section id="schedule">
+        <h2>📅 Jadwal Kelas Blok B</h2>
+
+        <div class="tabs">
+          <button class="tab-btn active" onclick="switchTab(event, 'senin')">
+            Senin
+          </button>
+          <button class="tab-btn" onclick="switchTab(event, 'selasa')">
+            Selasa
+          </button>
+          <button class="tab-btn" onclick="switchTab(event, 'rabu')">
+            Rabu
+          </button>
+          <button class="tab-btn" onclick="switchTab(event, 'kamis')">
+            Kamis
+          </button>
+          <button class="tab-btn" onclick="switchTab(event, 'jumat')">
+            Jumat
+          </button>
+        </div>
+
+        <!-- Senin -->
+        <div id="senin" class="tab-content active">
+          <div class="schedule-grid">
+            <div class="schedule-card">
+              <h3>Bahasa Indonesia</h3>
+              <p><strong>Guru:</strong> Ibu Dewi Nurhayati,S.Pd</p>
+              <p><strong>Ruang:</strong> 15</p>
+              <div class="time">⏰ 07:30 - 09:30</div>
+            </div>
+            <div class="schedule-card">
+              <h3>Matematika</h3>
+              <p><strong>Guru:</strong> Pak Ayi Kurnia,S.Pd.</p>
+              <p><strong>Ruang:</strong> 15</p>
+              <div class="time">⏰ 09:30 - 11:50</div>
+            </div>
+            <div class="schedule-card">
+              <h3>PAIBP</h3>
+              <p><strong>Guru:</strong> Ibu Didah Hamidah,S.Ag</p>
+              <p><strong>Ruang:</strong> 15</p>
+              <div class="time">⏰ 12:50 - 14:50</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Selasa -->
+        <div id="selasa" class="tab-content">
+          <div class="schedule-grid">
+            <div class="schedule-card">
+              <h3>B.SUNDA</h3>
+              <p><strong>Guru:</strong> Ibu Siti Mustika Dewi,S.Pd.</p>
+              <p><strong>Ruang:</strong> 15</p>
+              <div class="time">⏰ 07:30 - 10:10</div>
+            </div>
+            <div class="schedule-card">
+              <h3>Matematika</h3>
+              <p><strong>Guru:</strong> Pak Ayi Kurnia,S.Pd.</p>
+              <p><strong>Ruang:</strong> 15</p>
+              <div class="time">⏰ 10:30 - 11:50</div>
+            </div>
+            <div class="schedule-card">
+              <h3>KIK</h3>
+              <p><strong>Guru:</strong> Ibu Erna Yunita Rachmiatunisa,S.Pd</p>
+              <p><strong>Ruang:</strong> 15</p>
+              <div class="time">⏰ 12:50 - 14:50</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Rabu -->
+        <div id="rabu" class="tab-content">
+          <div class="schedule-grid">
+            <div class="schedule-card">
+              <h3>BK</h3>
+              <p><strong>Guru:</strong>Ibu Airista Jayanti,S.Pd</p>
+              <p><strong>Ruang:</strong> 15</p>
+              <div class="time">⏰ 07:30 - 08:50</div>
+            </div>
+            <div class="schedule-card">
+              <h3>B.Indo</h3>
+              <p><strong>Guru:</strong> Ibu Dewi Nurhayati,S.Pd</p>
+              <p><strong>Ruang:</strong> 15</p>
+              <div class="time">⏰ 08:50 - 10:10</div>
+            </div>
+            <div class="schedule-card">
+              <h3>B.Inggris</h3>
+              <p><strong>Guru:</strong> Ibu Herlina Pratama S.Pd</p>
+              <p><strong>Ruang:</strong> 15</p>
+              <div class="time">⏰ 10:30 - 11:50</div>
+            </div>
+            <div class="schedule-card">
+              <h3>KIK</h3>
+              <p><strong>Guru:</strong> Ibu Erna Yunita Rachmiatunisa,S.Pd</p>
+              <p><strong>Ruang:</strong> 15</p>
+              <div class="time">⏰ 12:50 - 14:50</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Kamis -->
+        <div id="kamis" class="tab-content">
+          <div class="schedule-grid">
+            <div class="schedule-card">
+              <h3>PJOK</h3>
+              <p><strong>Guru:</strong> Pak Imat Ruhimat,S.Pd</p>
+              <p><strong>Ruang:</strong> 15</p>
+              <div class="time">⏰ 07:30 - 09:30</div>
+            </div>
+            <div class="schedule-card">
+              <h3>PP</h3>
+              <p><strong>Guru:</strong> Ibu R.Tini gantini,S.H</p>
+              <p><strong>Ruang:</strong> 15</p>
+              <div class="time">⏰ 10:30 - 11:50</div>
+            </div>
+            <div class="schedule-card">
+              <h3>KIK</h3>
+              <p><strong>Guru:</strong> Ibu Erna Yunita Rachmiatunisa,S.Pd</p>
+              <p><strong>Ruang:</strong> 15</p>
+              <div class="time">⏰ 12:50 - 14:50</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Jumat -->
+        <div id="jumat" class="tab-content">
+          <div class="schedule-grid">
+            <div class="schedule-card">
+              <h3>PAIBP</h3>
+              <p><strong>Guru:</strong> Ibu Didah Hamidah,S.Ag</p>
+              <p><strong>Ruang:</strong> 15</p>
+              <div class="time">⏰ 07:30 - 08:50</div>
+            </div>
+            <div class="schedule-card">
+              <h3>Inggris</h3>
+              <p><strong>Guru:</strong> Ibu Herlina Pratama S.Pd</p>
+              <p><strong>Ruang:</strong> 15</p>
+              <div class="time">⏰ 08:50 - 11:50</div>
+            </div>
+            <div class="schedule-card">
+              <h3>Sejarah</h3>
+              <p><strong>Guru:</strong> Bapak Yanto Sugianto S.Pd</p>
+              <p><strong>Ruang:</strong> 15</p>
+              <div class="time">⏰ 12:50 - 14:50</div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Guru Section -->
+      <section id="teachers">
+        <h2>👨‍🏫 Daftar Guru Pengajar</h2>
+        <div class="teacher-grid">
+          <div class="teacher-card">
+            <div class="teacher-avatar">📖</div>
+            <h3>Ibu Dewi Nurhayati,S.Pd</h3>
+            <div class="subject">Bahasa Indonesia</div>
+            <div class="contact"></div>
+          </div>
+
+          <div class="teacher-card">
+            <div class="teacher-avatar">🔢</div>
+            <h3>Pak Ayi Kurnia,S.Pd.</h3>
+            <div class="subject">Matematika</div>
+            <div class="contact"></div>
+          </div>
+
+          <div class="teacher-card">
+            <div class="teacher-avatar">⚛️</div>
+            <h3>Ibu Erna Yunita Rachmiatunisa,S.Pd</h3>
+            <div class="subject">KIK</div>
+            <div class="contact"></div>
+          </div>
+
+          <div class="teacher-card">
+            <div class="teacher-avatar">🌐</div>
+            <h3>Ibu Herlina Pratama S.Pd</h3>
+            <div class="subject">Bahasa Inggris</div>
+            <div class="contact"></div>
+          </div>
+
+          <div class="teacher-card">
+            <div class="teacher-avatar">🏃‍♂️</div>
+            <h3>Pak Imat Ruhimat,S.Pd</h3>
+            <div class="subject">PJOK</div>
+            <div class="contact"></div>
+          </div>
+
+          <div class="teacher-card">
+            <div class="teacher-avatar">🧠</div>
+            <h3>Ibu Airista Jayanti,S.Pd</h3>
+            <div class="subject">BK</div>
+            <div class="contact"></div>
+          </div>
+
+          <div class="teacher-card">
+            <div class="teacher-avatar">📜</div>
+            <h3>Bapak Yanto Sugianto S.Pd</h3>
+            <div class="subject">Sejarah</div>
+            <div class="contact"></div>
+          </div>
+
+          <div class="teacher-card">
+            <div class="teacher-avatar">🌐</div>
+            <h3>Ibu R.Tini gantini,S.H</h3>
+            <div class="subject">PP</div>
+            <div class="contact"></div>
+          </div>
+
+          <div class="teacher-card">
+            <div class="teacher-avatar">🌱</div>
+            <h3>Ibu Didah Hamidah,S.Ag</h3>
+            <div class="subject">PAIBP</div>
+            <div class="contact"></div>
+          </div>
+
+          <div class="teacher-card">
+            <div class="teacher-avatar">📚</div>
+            <h3>Ibu Siti Mustika Dewi,S.Pd</h3>
+            <div class="subject">Bahasa Sunda</div>
+            <div class="contact"></div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Kontak Section -->
+      <section id="contact">
+        <div class="contact-info">
+          <div class="contact-item">
+            <div class="icon">📍</div>
+            <h4>Alamat Sekolah</h4>
+            <p>
+              Jalan depok,sukamenak kec.purbaratu<br />Tasikmalaya,Jawa Barat
+              46196<br />Indonesia
+            </p>
+          </div>
+          <div class="contact-item">
+            <div class="icon">🕐</div>
+            <h4>Jam Operasional</h4>
+            <p>Senin - Jumat: 06:30 - 14:50</p>
+          </div>
+        </div>
+      </section>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+      <p>&copy; 2026 Website Kelas</p>
+      <p>Terakhir Diperbarui: April 2026</p>
+    </footer>
+
+    <script>
+      // Fungsi untuk berpindah antar tab
+      function switchTab(evt, tabName) {
+        // Sembunyikan semua tab
+        const tabContents = document.getElementsByClassName("tab-content");
+        for (let i = 0; i < tabContents.length; i++) {
+          tabContents[i].classList.remove("active");
+        }
+
+        // Hapus class active dari semua tombol
+        const tabBtns = document.getElementsByClassName("tab-btn");
+        for (let i = 0; i < tabBtns.length; i++) {
+          tabBtns[i].classList.remove("active");
+        }
+
+        // Tampilkan tab yang dipilih
+        document.getElementById(tabName).classList.add("active");
+        evt.currentTarget.classList.add("active");
+      }
+
+      // Fungsi untuk scroll ke section
+      function scrollToSection(sectionId) {
+        const element = document.getElementById(sectionId);
+        if (element) {
+          element.scrollIntoView({ behavior: "smooth" });
+        }
+      }
+
+      // Effect untuk loading
+      window.addEventListener("load", function () {
+        document.body.style.animation = "fadeIn 1s ease-out";
+      });
+    </script>
+  </body>
+</html>
